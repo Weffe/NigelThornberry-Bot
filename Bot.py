@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 __author__ = 'Rogelio Negrete - Weffe'
 
 #Built on PRAW 3.5: http://praw.readthedocs.io/en/v3.5.0/
@@ -22,12 +23,14 @@ def start_bot():
     r.login('NigelThornberry-Bot', 'nigelthornberry', disable_warning='True')
 
     #subreddit = r.get_subreddit('NigelThornberryBot')
-    #subreddit = r.get_subreddit('funny')
-    subreddit = r.get_random_subreddit()
-    print("Working in", str(subreddit))
+    #subreddit = r.get_random_subreddit()
 
-    #get 10 hot submissions
-    for submission in subreddit.get_hot(limit=10):
+    subs = ('NigelThornberryBot+' + str(r.get_random_subreddit()))
+    subreddit = r.get_subreddit(subs)
+    print("\n-----------------------\nWorking in", str(subreddit))
+
+    #get 15 hot submissions
+    for submission in subreddit.get_hot(limit=15):
 
         submission_date = datetime.fromtimestamp(submission.created_utc)  # get submission date
         day_ago = datetime.fromtimestamp(time.time() - (24 * 60 * 60))  # find date for 24 hours ago
@@ -40,6 +43,8 @@ def start_bot():
             flat_comments = praw.helpers.flatten_tree(all_comments) #flatten comments, order is not taken into concern
 
             regex_pattern = re.compile(r"(?:\S+\s)?\S*" + 'smash' + r"\S*(?:\s\S+)?", re.IGNORECASE) #our regex pattern to work with
+
+            counter = 1 # for log purposes
 
             for comment in flat_comments:
                 search_result = re.search(regex_pattern, str(comment)) #result looks like this: [word] [keyword] [word]
@@ -69,7 +74,8 @@ def start_bot():
                     comment.upvote()
 
                     #print permalink to the comment we responded to
-                    print("\nNew Comment: " + comment_permalink + "\n------------------------------------")
+                    print("\n[" + str(counter) +"] Comment Made: " + comment_permalink)
+                    counter = counter + 1
 
     #save our updated pickle_list for the next runtime
     permalinkObj.save_pickle_list()

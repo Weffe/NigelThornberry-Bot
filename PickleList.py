@@ -63,7 +63,7 @@ class PickleList:
         #permalink list looks like: (permalink, date_posted)
         for key in [y[0] for y in self.pickle_list]:
             if permalink == key:
-                print('Found match. Ignoring comment. Link: ' + permalink)
+                #print('Found old match. Ignoring comment. Link: ' + permalink)
                 linkInList = True
 
         return linkInList
