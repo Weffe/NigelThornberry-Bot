@@ -27,6 +27,7 @@ def start_bot():
 
     subs = ('NigelThornberryBot+' + str(r.get_random_subreddit()))
     subreddit = r.get_subreddit(subs)
+
     print("\n-----------------------\nWorking in", str(subreddit))
 
     #get 15 hot submissions
@@ -55,8 +56,10 @@ def start_bot():
                 #we dont reply to the same user twice via permalink
                 if search_result and str(comment.author) != "NigelThornberry-Bot" and permalinkObj.is_link_in_list(comment_permalink) == False:
 
-                    current_date = datetime.strftime(datetime.now(), '%m-%d %H:%M')
+                    current_date = datetime.now()
+
                     #add permalink into our picke list to ignore in the future
+                    #save as a tuple to our pickle_list
                     permalinkObj.add_to_pickle_list((comment_permalink, current_date))
 
                     text_reply = "> "
@@ -78,6 +81,7 @@ def start_bot():
                     counter = counter + 1
 
     #save our updated pickle_list for the next runtime
+    permalinkObj.clean_up_permalink_list()
     permalinkObj.save_pickle_list()
 
 def main():

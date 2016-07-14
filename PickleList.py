@@ -2,6 +2,8 @@ __author__ = 'Rogelio Negrete - Weffe'
 
 import pickle
 import random
+import time
+from datetime import datetime
 
 class PickleList:
     def __init__(self, nameoffile):
@@ -40,7 +42,7 @@ class PickleList:
         with open(self.nameoffile, "wb") as file:
             pickle.dump(self.pickle_list, file)
 
-    def clear_pickle_list(self):
+    def empty_pickle_file(self):
         #cheeky way of deleting the file content
         #just open the file and save an empty list to it - which overwrites everything
         with open(self.nameoffile, "wb") as file:
@@ -67,3 +69,17 @@ class PickleList:
                 linkInList = True
 
         return linkInList
+
+    def clean_up_permalink_list(self):
+        day_ago = datetime.fromtimestamp(time.time() - (24 * 60 * 60))  # find date for 24 hours ago
+
+        for tupleItem in self.pickle_list:
+            permalink_date = tupleItem[1]
+            time_delta = int((day_ago - permalink_date).days) + 1
+
+            if time_delta >= 2:
+                #print("Found Old Link.")
+                self.pickle_list.remove(tupleItem)
+
+
+
