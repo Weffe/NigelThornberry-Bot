@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 __author__ = 'Rogelio Negrete - Weffe'
 
 #Built on PRAW 3.5: http://praw.readthedocs.io/en/v3.5.0/
