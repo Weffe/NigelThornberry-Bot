@@ -13,19 +13,28 @@ try:
 except Exception: #ImportError
     from PickleList import PickleList
 
+import Settings as Settings
+
 def start_bot():
 
     #pre-load our nigel pics list
     nigelObj = PickleList('nigelpicslinks.p')
     permalinkObj = PickleList('permalinks.p')
+    ignoreList = PickleList('ignorelist.p')
 
     r = praw.Reddit('NigelThornberry by Weffe')
-    r.login('NigelThornberry-Bot', 'nigelthornberry', disable_warning='True')
+    r.login(Settings.reddit_username, Settings.reddit_password, disable_warning='True')
 
     #subreddit = r.get_subreddit('NigelThornberryBot')
     #subreddit = r.get_random_subreddit()
 
-    subs = ('NigelThornberryBot+' + str(r.get_random_subreddit()))
+    random_subreddit = str(r.get_random_subreddit())
+
+    #make sure our random subreddit is not in our ignore list to continue
+    while(random_subreddit in ignoreList.pickle_list):
+        random_subreddit = str(r.get_random_subreddit())
+
+    subs = ('NigelThornberryBot+' + random_subreddit)
     subreddit = r.get_subreddit(subs)
 
     print("\n-----------------------\nWorking in", str(subreddit))
@@ -72,6 +81,9 @@ def start_bot():
                     comment_qoute = ''.join(comment_qoute) #concatenate our list
                     text_reply += comment_qoute + "\n\n[Did someone say smashing?!](" + nigelObj.choose_random_nigel_pic() + ")"
 
+                    #additional comment info
+                    text_reply += '\n\n----\n\n' + '[\[Problem? PM my creator!\]](https://www.reddit.com/message/compose?to=weffe&subject=NigelThornberry-Bot&message=Please%20add%20[Insert%20Your%20Subreddit]%20to%20your%20ignore%20list.)' + ' || ' + '[\[Github Source\]](https://github.com/Weffe/NigelThornberry-Bot)'
+
                     #send reply and upvote
                     comment.reply(text_reply)
                     comment.upvote()
@@ -80,9 +92,8 @@ def start_bot():
                     print("\n[" + str(counter) +"] Comment Made: " + comment_permalink)
                     counter = counter + 1
 
-    #save our updated pickle_list for the next runtime
-    permalinkObj.clean_up_permalink_list()
-    permalinkObj.save_pickle_list()
+    permalinkObj.clean_up_permalink_list() #cleanup any old links over 24hrs old
+    permalinkObj.save_pickle_list() #save our updated pickle_list for the next runtime
 
 def main():
     start_bot()
