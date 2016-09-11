@@ -1,5 +1,5 @@
 # NigelThornberry-Bot
-A bot on reddit made to post a funny picture of Nigel Thornberry if the keyword: smash(ed/ing/*) is mentioned in a comment.
+A bot on reddit made to post a funny picture of Nigel Thornberry if the keyword: smashing is mentioned in a comment.
 
 The bot is powered by PRAW 3.5. A lot of inspiration was taken from the [ButtsBot](https://github.com/jadunawa/ButtsBot)
 
