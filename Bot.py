@@ -52,7 +52,7 @@ def start_bot():
             all_comments = submission.comments #make array of comments
             flat_comments = praw.helpers.flatten_tree(all_comments) #flatten comments, order is not taken into concern
 
-            regex_pattern = re.compile(r"(?:\S+\s)?\S*" + 'smash' + r"\S*(?:\s\S+)?", re.IGNORECASE) #our regex pattern to work with
+            regex_pattern = re.compile(r"(?:\S+\s)?\S*" + 'smashing' + r"\S*(?:\s\S+)?", re.IGNORECASE) #our regex pattern to work with
 
             counter = 1 # for log purposes
 
@@ -76,7 +76,7 @@ def start_bot():
                     #we need to modify [keyword] so that its bold in the reply
                     comment_qoute = list(search_result.group(0).split()) #split search_result into a list
                     for x in range(0, len(comment_qoute)):
-                        if re.match(r"smash\S*", comment_qoute[x], re.IGNORECASE) != None:
+                        if re.match(r"smashing\S*", comment_qoute[x], re.IGNORECASE) != None:
                             comment_qoute[x] = ' **' + comment_qoute[x] + '** ' #replacing our keyword with bold characters on reddit
                     comment_qoute = ''.join(comment_qoute) #concatenate our list
                     text_reply += comment_qoute + "\n\n[Did someone say smashing?!](" + nigelObj.choose_random_nigel_pic() + ")"
