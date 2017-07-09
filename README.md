@@ -8,3 +8,5 @@ Bot.py does most of the work while PickleList.py helps out with loading/saving d
 This bot is ran using a CRON job on a [aws](https://aws.amazon.com/) server. 
 
 Link for the reddit account the bot is ran on: https://www.reddit.com/user/NigelThornberry-Bot
+
+UPDATE: After a year of use I have decided to retire this bot.
